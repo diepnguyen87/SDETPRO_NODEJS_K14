@@ -1,13 +1,13 @@
 let height = 1.7
 let weight = 175
-let BMI = weight/(height*2)
-console.log("Your BMI: ", BMI);
+let myBMI = weight/(height*2)
+console.log("Your BMI: ", myBMI);
 
-if(BMI < 18.5){
+if(myBMI < 18.5){
     console.log("You are under weight");
-}else if(BMI <= 24.9){
+}else if(myBMI <= 24.9){
     console.log("Normal weight");
-}else if(BMI <= 29.9){
+}else if(myBMI <= 29.9){
     console.log("Over weight");
 }else{
     console.log("Obesity");
