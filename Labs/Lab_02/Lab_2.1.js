@@ -1,3 +1,7 @@
+/**
+ * Get input from user about height(m) and weight(kg) then calculate BMI
+ */
+
 let height = 1.7
 let weight = 175
 let myBMI = weight/(height*2)

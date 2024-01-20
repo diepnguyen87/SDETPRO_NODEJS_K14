@@ -25,8 +25,17 @@ function isEvenNumber(num){
     return false;
 }
 
+function sortAscending (num1, num2){
+    return num1 - num2
+}
+
+function sortDescending (num1, num2){
+    return num2 - num1
+}
+
 module.exports = {
     calculateBMI:calculateBMI,
     calculateDeltaWeight:calculateDeltaWeight,
-    isEvenNumber:isEvenNumber
+    isEvenNumber:isEvenNumber,
+    sortAscending:sortAscending
 }

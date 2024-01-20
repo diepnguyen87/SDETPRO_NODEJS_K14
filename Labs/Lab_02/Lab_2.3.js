@@ -1,3 +1,7 @@
+/**
+ * Lab 2.1 + Suggest user to increase/decrease weight
+ */
+
 const MIN_NORMAL_BMI = 18.5
 const MAX_NORMAL_BMI = 24.9
 

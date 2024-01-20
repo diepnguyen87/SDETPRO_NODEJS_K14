@@ -1,4 +1,4 @@
-const Utility = require('./Utility.js')
+const Utility = require('../Utility.js')
 
 //Lab 2.1
 let myBMI = Utility.calculateBMI(80, 1.7);
