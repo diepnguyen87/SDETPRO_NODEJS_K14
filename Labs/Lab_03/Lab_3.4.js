@@ -1,4 +1,4 @@
-const { sortAscending } = require("../Utility");
+const { sortAscending, mergeSort } = require("../Utility");
 
 /**
  * Merge 2 SORTED integer array into one SORTED array
@@ -7,5 +7,7 @@ const { sortAscending } = require("../Utility");
 let intArr1 = [1, 12, 16, 28, 34]
 let intArr2 = [1, 13, 16, 27, 99]
 
-let mergedArr = intArr1.concat(intArr2)
-console.log(mergedArr.sort(sortAscending));
+let intArr3 = mergeSort(intArr1, intArr2)
+console.log(intArr3);
+
+
