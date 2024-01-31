@@ -112,13 +112,12 @@ function generateArray(){
     return array
 }
 
-
-
 module.exports = {
     calculateBMI:calculateBMI,
     calculateDeltaWeight:calculateDeltaWeight,
     isEvenNumber:isEvenNumber,
     sortAscending:sortAscending,
+    sortDescending:sortDescending,
     selectionSort: selectionSort,
     bubbleSort: bubbleSort,
     insertionSort: insertionSort,
