@@ -1,4 +1,4 @@
-const { sortAscending, mergeSort } = require("../Utility");
+const {mergeSort } = require("../Utility");
 
 /**
  * Merge 2 SORTED integer array into one SORTED array

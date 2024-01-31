@@ -1,6 +1,5 @@
 const Utility = require("../Utility");
-const { sortAscending, 
-        selectionSort, 
+const { selectionSort, 
         bubbleSort, 
         insertionSort, 
         generateArray} = require("../Utility")

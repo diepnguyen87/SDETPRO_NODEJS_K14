@@ -1,4 +1,4 @@
-const { sortAscending, insertionSort } = require("../Utility");
+const {insertionSort } = require("../Utility");
 
 /**
  * Finding maximum value/minimum value from an integer array
