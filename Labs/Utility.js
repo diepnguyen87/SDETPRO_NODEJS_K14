@@ -71,25 +71,31 @@ function insertionSort(numberArray){
 function mergeSort(nArray1, nArray2){
     nArray3 = []
     currentK = 0;
-    for(let i=0; i < nArray1.length; ++i){
-        for(let k=currentK; k < nArray2.length; ++k){
+    let i = 0;
+    let k = currentK;
+    
+    for(i; i < nArray1.length; ++i){
+        for(k; k < nArray2.length; ++k){
             if(nArray1[i] < nArray2[k]){
                 nArray3.push(nArray1[i])
-                if(i == nArray1.length-1){
-                    nArray3.push(nArray2[k])
-                }
                 break
             }else{
                 nArray3.push(nArray2[k])
-               
-                if(k == nArray2.length-1){
-                    nArray3.push(nArray1[i])
-                    break
-                }
                 currentK = k+1
             }
         }
     }
+
+    while(i < nArray1.length){
+        nArray3.push(nArray1[i])
+        ++i;
+    }
+
+    while(k < nArray2.length){
+        nArray3.push(nArray2[k])
+        ++k;
+    }
+
     return nArray3
 }
 

@@ -34,7 +34,7 @@ function showAccountInfo(account){
         console.log("The entered account number does not exist");
     }else{
         console.log("Account name:\t", account.accountName);
-        console.log("Balance:\t", account.balance);
+        console.log("Balance:\t", formatUSDCurrency(account.balance));
     }
     console.log("==============================")
 }
@@ -44,20 +44,29 @@ function withdrawBalance(){
     if(foundAccount != null){
         showAccountInfo(foundAccount)
             let enteredWithdrawMoney = enterWithdrawMoney()
+            if (isNaN(enteredWithdrawMoney)){
+                console.log("Pls enter number only");
+                return
+            }
+
             if(enteredWithdrawMoney < minWithdraw){
                 console.log("Minimum withdraw is " + minWithdraw + ". Please try again!");
             }else if(enteredWithdrawMoney <= foundAccount.balance-minBalance){
                 console.log(">>>>>PROCESSING WITHDRAW MONEY");
                 console.log("***WITHDRAW SUCCESS***");
                 foundAccount.balance -= enteredWithdrawMoney
-                console.log("Withdrawed money is: ", enteredWithdrawMoney);
-                console.log("Remaining balance: ", foundAccount.balance);
+                console.log("Withdrawed money is: ", formatUSDCurrency(enteredWithdrawMoney));
+                console.log("Remaining balance: ", formatUSDCurrency(foundAccount.balance));
             }else{
                 console.log("!!! AVAILABLE BALANCE IS NOT ENOUGH. Please enter another one !!!");
             }
     }else{
         console.log("The entered account number does not exist");
     }
+}
+
+function formatUSDCurrency(money){
+    return money.toLocaleString("en-US", {style: "currency", currency: "USD"})
 }
 
 module.exports = {

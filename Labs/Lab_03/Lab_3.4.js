@@ -1,13 +1,18 @@
-const {mergeSort } = require("../Utility");
+const { mergeSort,
+        insertionSort, 
+        generateArray } = require("../Utility");
 
 /**
  * Merge 2 SORTED integer array into one SORTED array
  */
 
-let intArr1 = [1, 12, 16, 28, 34]
-let intArr2 = [1, 13, 16, 27, 99]
+let intArr1 = generateArray();
+insertionSort(intArr1)
+console.log("Array 1: ", intArr1);
+
+let intArr2 = generateArray();
+insertionSort(intArr2)
+console.log("Array 2: ", intArr2);
 
 let intArr3 = mergeSort(intArr1, intArr2)
-console.log(intArr3);
-
-
+console.log("Final array after merge sort: ", intArr3);

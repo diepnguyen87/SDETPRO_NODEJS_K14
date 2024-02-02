@@ -9,11 +9,11 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "console": "externalTerminal",
+            "console": "integratedTerminal",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\Labs\\Lab_04\\Lab_4.1.js"
+            "program": "${workspaceFolder}\\Labs\\Lab_03\\Lab_3.4.js"
         }
     ]
 }
