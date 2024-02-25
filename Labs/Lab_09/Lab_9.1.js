@@ -1,5 +1,5 @@
 const readline = require("../../node_modules/readline-sync");
-const Service = require("./ServiceThenable");
+const Service = require("./Service");
 
 const BASE_URL = "https://jsonplaceholder.typicode.com";
 const SLUG = "/posts";

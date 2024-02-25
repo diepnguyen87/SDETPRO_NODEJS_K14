@@ -1,5 +1,5 @@
 const readline = require("readline-sync");
-const Service = require("./ServiceAsynAwait");
+const Service = require("./Service");
 
 const BASE_URL = "https://jsonplaceholder.typicode.com";
 const SLUG = "/posts";
