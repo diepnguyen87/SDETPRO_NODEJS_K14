@@ -1,16 +1,19 @@
 const readline = require("readline-sync");
-const Service = require("./Service");
+const { getPostByURL,
+        showPost,
+        filterPostsByUserID,
+        showAllPosts} = require("./Service");
 
 const BASE_URL = "https://jsonplaceholder.typicode.com";
 const SLUG = "/posts";
 
 (async function run() {
     let postID = readline.question("Input postID: ");
-    let selectedPost = await Service.getSelectedPost(BASE_URL, SLUG, postID)
-    Service.showPostContent(selectedPost)
+    let selectedPost = await getPostByURL(`${BASE_URL}${SLUG}/${postID}`)
+    showPost(selectedPost)
 
-    let userID = readline.question("Input userID: ")
-    let allPost = await Service.getSelectedPost(BASE_URL, SLUG)
-    let allPostByUserID = Service.filterPostByUserID(allPost, userID)
-    console.log(allPostByUserID);
+    let userID = Number(readline.question("Input userID: "))
+    let allPosts = await getPostByURL(`${BASE_URL}${SLUG}`)
+    let postsByUserID = filterPostsByUserID(allPosts, userID)
+    showAllPosts(postsByUserID)
 })()

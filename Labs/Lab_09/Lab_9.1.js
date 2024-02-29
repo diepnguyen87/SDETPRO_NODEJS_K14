@@ -1,31 +1,23 @@
 const readline = require("../../node_modules/readline-sync");
-const Service = require("./Service");
+const {
+    sendRequest,
+    showPostPromise,
+    showPostsPromise,
+    filterAllPostsPromiseByUserID, } = require("./Service");
 
 const BASE_URL = "https://jsonplaceholder.typicode.com";
 const SLUG = "/posts";
 
 let postID = readline.question("Input postID: ");
-let userID = readline.question("Input userID: ")
+let userID = Number(readline.question("Input userID: "))
 
-let targetURL = BASE_URL + SLUG + "/" + postID
-fetch(targetURL)
-    .then(response => response.json())
-    .then(post => Service.showPostContent(post))
-    .then(function(){
-        targetURL = BASE_URL + SLUG
-        return fetch(targetURL)
-    })
-    .then(response => response.json())
-    .then(function(allPost){
-        return allPost.filter(getPostByUserID)
-    })
-    .then(function(postsByUserID){
-        Service.showPostContent(postsByUserID)
-    })
+// Print out post content by postID
+let targetURL = `${BASE_URL}${SLUG}/${postID}`
+let postPromise = sendRequest(targetURL)
+showPostPromise(postPromise)
 
-function getPostByUserID(item, index, array) {
-    if (item.userId == userID) {
-        return true
-    }
-}
-
+// Print all posts by UserID
+targetURL = `${BASE_URL}${SLUG}`
+let allPostsPromise = sendRequest(targetURL)
+let postsPromiseByUserID = filterAllPostsPromiseByUserID(allPostsPromise, userID)
+showPostsPromise(postsPromiseByUserID)
