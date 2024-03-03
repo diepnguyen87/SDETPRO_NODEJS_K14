@@ -11,7 +11,7 @@ function showPost(post) {
     } else if (Object.keys(post).length === 0) {
         console.log("The entered postID is incorrect");
     } else {
-        console.log(post);
+        console.log(`===> Body: ${post.body}`);
     }
     console.log("===================");
 }
@@ -28,7 +28,6 @@ function showAllPosts(posts) {
 }
 
 function showPostPromise(postPromise) {
-    console.log("check:", postPromise);
     postPromise.then(post => showPost(post))
 }
 
