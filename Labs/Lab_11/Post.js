@@ -1,9 +1,16 @@
 class Post {
     constructor(userID, postID, postTitle, postBody) {
-        this._userID = userID;
-        this._postID = postID;
-        this._postTitle = postTitle;
-        this._postBody = postBody;
+        this._assignIfDefined('_userID', userID);
+        this._assignIfDefined('_postID', postID);
+        this._assignIfDefined('_postTitle', postTitle);
+        this._assignIfDefined('_postBody', postBody);
+
+    }
+    
+    _assignIfDefined(propertyName, value) {
+        if (value !== undefined) {
+            this[propertyName] = value;
+        }
     }
 
     get userID() {

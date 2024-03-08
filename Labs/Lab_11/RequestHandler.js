@@ -2,7 +2,7 @@ const Post = require('./Post')
 
 class RequestHandler {
 
-    async getTargetPost(url, userID, postID) {
+    static async getTargetPost(url, userID, postID) {
         let postsModelByUserID = await this.getAllPostsByUserID(url, userID)
         
         if(postsModelByUserID === "eUserID"){
@@ -20,7 +20,7 @@ class RequestHandler {
         return targetPostModel
     }
 
-    async getAllPostsByUserID(url, userID) {
+    static async getAllPostsByUserID(url, userID) {
         let response = await fetch(url)
         let allPosts = await response.json()
         let allPostsByUserID = allPosts.filter(function (post) {

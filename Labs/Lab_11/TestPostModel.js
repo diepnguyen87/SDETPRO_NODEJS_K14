@@ -9,10 +9,9 @@ let userID = Number(readline.question("Input userID: "));
 
 async function run() {
     let targetURL = `${BASE_URL}${SLUG}`
-    let requestHandler = new RequestHandler();
 
-    //// get tartgetPost by userID and postID
-    let targetPost = await requestHandler.getTargetPost(targetURL, userID, postID)
+    // get tartgetPost by userID and postID
+    let targetPost = await RequestHandler.getTargetPost(targetURL, userID, postID)
     if(targetPost === "eUserID"){
         console.log("The entered UserID is incorrect. Pls try again!!!");
     }else if(targetPost === "ePostID"){
@@ -22,7 +21,7 @@ async function run() {
     }
 
     // get all posts by UserID
-    let allPostsByUserID = await requestHandler.getAllPostsByUserID(targetURL, userID)
+    let allPostsByUserID = await RequestHandler.getAllPostsByUserID(targetURL, userID)
     if(allPostsByUserID === "eUserID"){
         console.log("The entered UserID is incorrect. Pls try again!!!");
     }else{
