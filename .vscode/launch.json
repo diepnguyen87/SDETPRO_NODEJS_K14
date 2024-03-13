@@ -13,7 +13,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\Labs\\Lab_11\\TestPostModel1.js"
+            "program": "${workspaceFolder}\\Labs\\Lab_13\\TestAnimal.js"
         }
     ]
 }

@@ -4,9 +4,8 @@ class Post {
         this._assignIfDefined('_postID', postID);
         this._assignIfDefined('_postTitle', postTitle);
         this._assignIfDefined('_postBody', postBody);
-
     }
-    
+
     _assignIfDefined(propertyName, value) {
         if (value !== undefined) {
             this[propertyName] = value;
