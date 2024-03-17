@@ -13,13 +13,14 @@ class Book {
         this._bookManagementID = null
     }
 
-    static parseObject(obj) {
-        return new Book(obj.title, obj.author);
-    }
-
+    
     generateBookID(){
         ++Book.bookID
         return Book.bookID.toString().padStart(3, '0');
+    }
+    
+    static parseObject(obj) {
+        return new Book(obj.title, obj.author);
     }
 
     toString(){

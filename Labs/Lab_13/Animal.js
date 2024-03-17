@@ -1,5 +1,7 @@
 class Animal {
 
+    static xu = 1;
+
     constructor() {
         this._name = Animal.name
         this._speed = 50
@@ -9,7 +11,9 @@ class Animal {
         return Math.floor(Math.random() * maxSpeed) + 1
     }
 
-    toString() {
+    static toString() {
+        setTimeout(getSpeed.bind(), timeout);
+        this.bind()
         return `Winner is ${this.name}, with speed: ${this.speed}`
     }
 
@@ -30,3 +34,4 @@ class Animal {
     }
 }
 module.exports = Animal
+

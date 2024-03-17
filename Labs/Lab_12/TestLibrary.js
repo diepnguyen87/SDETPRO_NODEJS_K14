@@ -1,10 +1,9 @@
 const readline = require("../../node_modules/readline-sync");
-const Reader = require("./Reader");
 const Library = require("./Library");
 
-function showLibraryUI(){
+async function showLibraryUI() {
     let isContinue = true
-    while(isContinue){
+    while (isContinue) {
         console.log("=== WELCOME TO PENNSYLVANIA LIBRARY ===");
         console.log(`
         1. Borrow Books
@@ -20,16 +19,20 @@ function showLibraryUI(){
             case 1:
                 let isContinueSelecting = true
                 let selectedBooks = []
-                while(isContinueSelecting){
+                while (isContinueSelecting) {
                     selectedBooks = Library.selectBooks()
-                    if(selectedBooks.length >= 1){
+                    if (selectedBooks) {
+                        if (selectedBooks.length >= 1) {
+                            isContinueSelecting = false
+                            await Library.borrowBooks(selectedBooks)
+                        } else {
+                            console.log("All books you have selected are not existed. Please try again!!!");
+                        }
+                    } else {
+                        console.log("No books are loaded on shelf");
                         isContinueSelecting = false
-                    }else if(selectedBooks.length === 0){
-                        console.log("All books you have selected are not existed. Please try again!!!");
                     }
                 }
-                console.log(selectedBooks);
-                Library.borrowBooks(selectedBooks)
                 break;
             case 2:
                 Library.returnBooks()
@@ -40,8 +43,8 @@ function showLibraryUI(){
                 break;
             case 5:
                 break;
-            case 0: 
-                isContinueSelecting = false
+            case 0:
+                isContinue = false
                 break;
             default:
                 console.log("Incorrect option. Please enter digit only from 1 - 5");
@@ -50,7 +53,7 @@ function showLibraryUI(){
     }
 }
 
-function showLibraryUIBasedOnLibrian(){
+function showLibraryUIBasedOnLibrian() {
     console.log("Book List/ Read List/ aboth are not loaded successfully.");
     console.log("Do you wanna continue?");
     console.log(`
@@ -58,7 +61,7 @@ function showLibraryUIBasedOnLibrian(){
     2. Exit
     `);
     let isContinue = true;
-    while(isContinue){
+    while (isContinue) {
         let yourOption = Number(readline.question("Enter your option: "))
         switch (yourOption) {
             case 1:
@@ -74,25 +77,25 @@ function showLibraryUIBasedOnLibrian(){
     showLibraryUI()
 }
 
-async function startLibrary(){
+async function startLibrary() {
     let booksArr = await Library.loadBookData()
-    if(booksArr){
+    if (booksArr) {
         console.log("Book List are loaded successfully");
-    }else{
+    } else {
         console.log("Book List can not loaded");
     }
 
     let readersArr = await Library.loadReaderData()
-    if(readersArr){
+    if (readersArr) {
         console.log("Reader List are loaded successfully");
-    }else{
+    } else {
         console.log("Reader List can not loaded");
     }
 
-    if(Library.bookList && Library.readerList){
-        showLibraryUI()
-    }else{
-       showLibraryUIBasedOnLibrian()
+    if (Library.bookList && Library.readerList) {
+        await showLibraryUI()
+    } else {
+        showLibraryUIBasedOnLibrian()
     }
 }
 

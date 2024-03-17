@@ -2,116 +2,135 @@ const readline = require("../../node_modules/readline-sync");
 const BookManagement = require("./BookManagement");
 const Book = require("./Book");
 const Reader = require("./Reader");
-const { getCurrentDateFormatFromOS,
-        readJsonFile,
-        parseJSONToObject,
-        padString} = require("./Utilities");
+const Utilities = require("./Utilities");
 
 class Library {
 
     static bookList
-    static availableBookList = []
+    //static availableBookList = []
     static bookNo = 0
     static readerList
 
-    constructor(){
+    constructor() {
     }
 
-    static async loadBookData(){
-        let bookJsonString = await readJsonFile("./Labs/Lab_12/bookData.json")
-        try{
-            Library.bookList = parseJSONToObject(bookJsonString, Book)
+    static async loadBookData() {
+        let bookJsonString = await Utilities.readJsonFile("./Labs/Lab_12/bookData.json")
+        try {
+            Library.bookList = Utilities.parseJSONToObject(bookJsonString, Book)
             return Library.bookList
-        }catch(error){
+        } catch (error) {
             console.error(error.message)
             return
         }
     }
-    
-    static async loadReaderData(){
-        let readerJsonString = await readJsonFile("./Labs/Lab_12/readerData.json")
-        try{
-            Library.readerList = parseJSONToObject(readerJsonString, Reader)
+
+    static async loadReaderData() {
+        let readerJsonString = await Utilities.readJsonFile("./Labs/Lab_12/readerData.json")
+        console.log(readerJsonString);
+        try {
+            Library.readerList = Utilities.parseJSONToObject(readerJsonString, Reader)
             return Library.readerList
-        }catch(error){
+        } catch (error) {
             console.error(error.message)
             return
         }
     }
 
     //Nhap sach
-    static importBooks(books){
+    static importBooks(books) {
         this.bookList.push(books);
         console.log(`Current book list: ${this.bookList}`);
     }
 
-    static selectBooks(){
-        Library.bookNo = 0
-        Library.availableBookList = []
-        if(Library.bookList){
+    static selectBooks() {
+        let availableBookList = Library.getAvailableBooks()
+
+        if (availableBookList.length > 0) {
             console.log("List of available books: ");
-            Library.bookList.forEach((book) => {
-                if(book.status){
-                    Library.availableBookList.push(book)
-                    console.log(padString(++Library.bookNo + '', 5) + book.toString());
-                }
-            })
-            let selectedBooksStrByNo = readline.question("Enter selected books: ")
-            let selectedBooksArrByNo = selectedBooksStrByNo.trim().split(' ')
-            let selectedBooks = []
-            Library.availableTotalBooks = Library.availableBookList.length
-            for (const option of selectedBooksArrByNo) {
-                if(option > Library.availableTotalBooks){
-                    console.log(`Book No. ${option} does not exist`);
-                }else{
-                    selectedBooks.push(Library.availableBookList[option - 1])
-                }
-            }
-            return selectedBooks
-        }else{
-            console.log("No books are loaded on shelf");
-        }
+            Library.showBookList(availableBookList);
+
+            let selectedBooksStrByNo = readline.question("Enter your selected books: ")
+            let selectedBooksArrByNo = selectedBooksStrByNo.trim().split(/\s+/)
+
+            return Library.getSelectedBooksArr(selectedBooksArrByNo, availableBookList)
+        } 
+        return
     }
-   
-    static borrowBooks(selectedBooks){
-        let isContinue = true;
-        while(isContinue){
+
+    static getSelectedBooksArr(selectedBooksArrByNo, availableBookList) {
+        let selectedBooks = []
+        let availableTotalBooks = availableBookList.length
+
+        for (const option of selectedBooksArrByNo) {
+            if (option > availableTotalBooks) {
+                console.log(`Book No. ${option} does not exist`);
+            } else {
+                selectedBooks.push(availableBookList[option - 1])
+                console.log(`Book No. ${option} is selected`);
+            }
+        }
+        return selectedBooks
+    }
+
+    static getAvailableBooks() {
+        let availableBookList = []
+        Library.bookList.forEach(book => {
+            if (book.status) {
+                availableBookList.push(book)
+            }
+        })
+        return availableBookList;
+    }
+
+    static showBookList(booksArray) {
+        Library.bookNo = 0
+        booksArray.forEach(book => {
+            console.log(Utilities.padString(++Library.bookNo + '', 5) + book.toString());
+        })
+    }
+
+    static async borrowBooks(selectedBooks) {
+        let isContinueBorrow = true;
+        let reader;
+        while (isContinueBorrow) {
             let isMember = readline.question("Have you registered member yet? (Y/N): ").toUpperCase()
             switch (isMember) {
                 case "Y":
-                    let reader = Library._getReaderMembership()
-                    Library._borrowBooks(selectedBooks, reader)
-                    isContinue = false;
+                    reader = Library._getReaderMembership()
+                    isContinueBorrow = false;
                     break;
                 case "N":
-                    Library._createReader()
+                    reader = await Library._createNewReader()
+                    isContinueBorrow = false;
                     break;
                 default:
                     console.log("Incorrect option. Enter only Y/N");
             }
         }
+        Library._borrowBooks(selectedBooks, reader)
     }
 
-    static returnBooks(returnBooks, returnPerson){
+    static returnBooks(returnBooks, returnPerson) {
         returnBooks.forEach(returnBook => {
-            if(isBookExisted(returnBook) && returnBook.status === false){
-              let reader = BookManagement.getReaderByBookManagementID(returnBook.BookManagementID)
-              
-            }else{
+            if (isBookExisted(returnBook) && returnBook.status === false) {
+                let reader = BookManagement.getReaderByBookManagementID(returnBook.BookManagementID)
+
+            } else {
                 console.log(`The ${returnBook} is not our library books`);
             }
         });
     }
 
-    static _getReaderMembership(){
+    static _getReaderMembership() {
         let isReaderExist = false
         let reader;
-        while(!isReaderExist){
+        while (!isReaderExist) {
             let readerID = Number(readline.question("Please give your memberID: "))
             reader = Library._getReader(readerID)
-            if(reader){
+            if (reader) {
                 isReaderExist = true
-            }else{
+            } else {
                 console.log(`The readerID ${readerID} does not exist. `);
                 Library._processReaderNotExist()
             }
@@ -119,7 +138,7 @@ class Library {
         return reader
     }
 
-    static _processReaderNotExist(){
+    static _processReaderNotExist() {
         console.log(`
             1. Re-enter memberID
             0. Exit
@@ -134,20 +153,20 @@ class Library {
         }
     }
 
-    static _borrowBooks(selectedBooks, reader){
+    static _borrowBooks(selectedBooks, reader) {
         let borrowBooks = []
 
-        selectedBooks.map(function(book){
-            if(book.status){
+        selectedBooks.map(function (book) {
+            if (book.status) {
                 book.status = false
                 borrowBooks.push(book)
-                console.log(`${padString(book.title, 47)} ==> borrow succeed`);
-            }else{
+                console.log(`${Utilities.padString(book.title, 47)} ==> borrow succeed`);
+            } else {
                 console.log(`${book.title} is not vailable now`);
             }
         })
 
-        if(borrowBooks.length > 0){
+        if (borrowBooks.length > 0) {
             let record = BookManagement.createRecord(borrowBooks, reader)
             borrowBooks.forEach(book => {
                 book.bookManagementID = record.id
@@ -155,18 +174,22 @@ class Library {
         }
     }
 
-    static _createReader(){
+    static async _createNewReader() {
         let fullName = readline.question("Please enter your full name: ")
         let isDOBCorrect = false
-        while(!isDOBCorrect){
-            let dob = readline.question(`Please enter your date of birth (${getCurrentDateFormatFromOS()}): `)
-            try{
+        while (!isDOBCorrect) {
+            let dob = readline.question(`Please enter your date of birth (${Utilities.getCurrentDateFormatFromOS()}): `)
+            try {
                 let newReader = new Reader(fullName, dob)
                 Library.readerList.push(newReader)
+                await Utilities.writeJsonFile(Library.readerList, "./Labs/Lab_12/readerData.json")
+                        // .then((message) => console.log(message))
+                        // .catch((error) => console.error('Error writing JSON file:', error));
                 isDOBCorrect = true
                 console.log(`Create new reader success. Your readerID: ${newReader.id}`);
-            }catch(error){
-                console.log("[ERROR] Incorrect DOB format");    
+                return newReader
+            } catch (error) {
+                console.log("[ERROR] Incorrect DOB format");
             }
         }
     }

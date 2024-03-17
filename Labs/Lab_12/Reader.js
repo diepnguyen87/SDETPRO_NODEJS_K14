@@ -1,5 +1,4 @@
-const { padString,
-        getCurrentDateFormatFromOS } = require("./Utilities")
+const Utilities = require("./Utilities");
 
 class Reader {
 
@@ -22,11 +21,11 @@ class Reader {
 
     toString(){
         ++Reader.index;
-        return `Full name: ${padString(this.fullName, 48)}   dob: ${this.dob}`;
+        return `Full name: ${Utilities.padString(this.fullName, 48)}   dob: ${this.dob}`;
     }
 
     _isValidDate(dateString) {
-        let dateTemplate = getCurrentDateFormatFromOS()
+        let dateTemplate = Utilities.getCurrentDateFormatFromOS();
         let dateTemplateArr = dateTemplate.split('/')
         let dateStringArr = dateString.split('/')
 

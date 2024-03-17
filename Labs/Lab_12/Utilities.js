@@ -1,67 +1,81 @@
 const fs = require('fs');
-const { error } = require('console');
 
+class Utilities {
 
-//return dd/mm/yyyy based on OS
-function getCurrentDateFormatFromOS() {
-    let date = new Date(2024, 0, 31).toLocaleDateString()
-    let templateDateFormat = date.replace(/\d+/g, function (match) {
-        switch (match.length) {
-            case 4: return 'yyyy';
-            case 2: return 'dd';
-            case 1: return 'mm'
+    //return dd/mm/yyyy based on OS
+    static getCurrentDateFormatFromOS() {
+        let date = new Date(2024, 0, 31).toLocaleDateString()
+        let templateDateFormat = date.replace(/\d+/g, function (match) {
+            switch (match.length) {
+                case 4: return 'yyyy';
+                case 2: return 'dd';
+                case 1: return 'mm'
+            }
+        })
+        return templateDateFormat
+    }
+
+    static padString(str, width) {
+        return str.padEnd(width, ' ');
+    }
+
+    static parseJSONToObject(jsonString, ConstructorFunction) {
+        let parsedObject;
+        try {
+            parsedObject = JSON.parse(jsonString);
+        } catch (error) {
+            throw new Error('Json string syntax error')
         }
-    })
-    return templateDateFormat
-}
 
-function padString(str, width) {
-    return str.padEnd(width, ' ');
-}
-
-function parseJSONToObject(jsonString, ConstructorFunction) {
-    let parsedObject;
-    try {
-        parsedObject = JSON.parse(jsonString);
-    } catch (error) {
-        throw new Error('Json string syntax error')
+        if (Array.isArray(parsedObject)) {
+            return parsedObject.map(obj => ConstructorFunction.parseObject(obj));
+        } else {
+            return ConstructorFunction.parseObject(obj);
+        }
     }
 
-    if (Array.isArray(parsedObject)) {
-        return parsedObject.map(obj => ConstructorFunction.parseObject(obj));
-    } else {
-        return ConstructorFunction.parseObject(obj);
+    static readJsonFile(jsonDataFile) {
+        return new Promise((resolve, reject) => {
+            fs.readFile(jsonDataFile, 'utf8', (err, data) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(data);
+            });
+        });
     }
 
-    // try {
-    //     const parsedObject = JSON.parse(jsonString);
-    //     if (Array.isArray(parsedObject)) {
-    //         //return parsedObject.map(obj => new ConstructorFunction(obj.title, obj.author));
-    //         return parsedObject.map(obj => new ConstructorFunction(ConstructorFunction.fromObject(obj)));
-    //     } else {
-    //         return new ConstructorFunction(parsedObject);
-    //     }
-    // } catch (error) {
-    //     console.error('Error parsing JSON:', error.message);
-    //     return null;
-    // }
-}
+    // static writeJsonFile(data, jsonDataFile) {
+    //     return new Promise((resolve, reject) => {
+    //         // Convert data to JSON string
+    //         const jsonData = JSON.stringify(data, null, 2);
+        
+    //         // Write JSON string to file
+    //         fs.writeFile(jsonDataFile, jsonData, (err) => {
+    //             if (err) {
+    //             reject(err); // Reject the promise if an error occurs
+    //             return;
+    //             }
+    //             resolve('Data has been written to ' + jsonDataFile); // Resolve the promise if successful
+    //         });
+    //     });
+    //   }
 
-function readJsonFile(jsonDataFile) {
-    return new Promise((resolve, reject) => {
-        fs.readFile(jsonDataFile, 'utf8', (err, data) => {
+    static async writeJsonFile(data, jsonDataFile) {
+        // Convert JavaScript object to JSON string
+        const jsonData = JSON.stringify(data);
+        //jsonData = '{"dob":"1/1/2000","fullName":"Duy Khanh","id":3}'
+        console.log(jsonData);
+        // Write JSON string to a file
+        await fs.writeFile(jsonDataFile, jsonData, (err) => {
             if (err) {
-                reject(err);
+                console.error('Error writing JSON file:', err);
                 return;
             }
-            resolve(data);
+            console.log('Data has been written to ${jsonDataFile}');
         });
-    });
+    }
 }
 
-module.exports = {
-    getCurrentDateFormatFromOS,
-    readJsonFile,
-    parseJSONToObject,
-    padString,
-}
+module.exports = Utilities

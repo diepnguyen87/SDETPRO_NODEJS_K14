@@ -14,11 +14,8 @@ function countWords(str){
 
 module.exports = {countWords: countWords}
 
-let animal = {
-    type: "mammal",
-    speak: function() {
-    console.log("I'm a " + this.type);
-    }
-};
-
-Object.ent
+// let animal = {
+//     type: "mammal",
+//     speak: function() {
+//     console.log("I'm a " + this.type);
+//     }

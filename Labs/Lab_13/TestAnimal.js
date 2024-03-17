@@ -8,6 +8,7 @@ let horse = new Horse()
 let tiger = new Tiger()
 let dog = new Dog()
 let leopard = new Leopard()
+
 let winnerAnimal = AnimalController.racing([horse, tiger, dog, leopard])
 if(winnerAnimal){
     console.log(winnerAnimal.toString());
