@@ -12,7 +12,11 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\Labs\\Lab_14\\TestEmployee.ts"
+            "program": "${workspaceFolder}\\Labs\\Lab_14\\TestEmployee.js",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js"
+            ]
         }
     ]
 }

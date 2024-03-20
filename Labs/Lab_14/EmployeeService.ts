@@ -69,7 +69,7 @@ export default class EmployeeService {
         return empList
     }
 
-    static sortAscendingEmplooyeeListByName() {
+    static sortAscendingEmployeeListByName() {
         let empList = [...EmployeeService.employeeList]
         empList.sort((emp1, emp2) => {
             // Compare employee full names alphabetically

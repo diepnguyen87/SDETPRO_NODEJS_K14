@@ -6,9 +6,7 @@ class Leopard extends Animal {
     static maxSpeed = 120
 
     constructor() {
-        super()
-        this._name = Leopard.name
-        this._speed = super.getSpeed(Leopard.maxSpeed)
+        super(Animal.generateRandomSpeed(Leopard.maxSpeed))
     }
 }
 module.exports = Leopard

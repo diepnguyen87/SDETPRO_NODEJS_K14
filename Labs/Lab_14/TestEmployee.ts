@@ -26,7 +26,6 @@ console.log(`Total salary payment for ${period3}: ${totalSalary3}`);
 
 // Sort employee list by actual salary
 let sortedEmployeeListBySalary = EmployeeService.sortAscendingEmplooyeeListByActualSalary(period1)
-console.log(sortedEmployeeListBySalary);
 
 let employeeWithHighestSalary = sortedEmployeeListBySalary[sortedEmployeeListBySalary.length - 1].toStringByPeriod(period1)
 let employeeWithLowestSalary = sortedEmployeeListBySalary[0].toStringByPeriod(period1)
@@ -35,5 +34,5 @@ console.log(`Employee with highest salary in ${period1}: ${employeeWithHighestSa
 console.log(`Employee with lowest salary in ${period1}: ${employeeWithLowestSalary}`);
 
 // Sort employee list by name
-let sortedEmployeeListByName = EmployeeService.sortAscendingEmplooyeeListByName()
+let sortedEmployeeListByName = EmployeeService.sortAscendingEmployeeListByName()
 EmployeeService.showEmployeeListByName(sortedEmployeeListByName)

@@ -6,9 +6,7 @@ class Horse extends Animal {
     static maxSpeed = 75
 
     constructor(){
-        super()
-        this._name = Horse.name
-        this._speed = super.getSpeed(Horse.maxSpeed)
+        super(Animal.generateRandomSpeed(Horse.maxSpeed))
     }
 }
 module.exports = Horse
