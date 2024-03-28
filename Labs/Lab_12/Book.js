@@ -12,7 +12,6 @@ class Book {
         this._status = true
         this._bookManagementID = null
     }
-
     
     generateBookID(){
         ++Book.bookID

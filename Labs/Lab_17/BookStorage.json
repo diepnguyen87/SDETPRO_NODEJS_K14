@@ -1,0 +1,20 @@
+[
+  {
+    "ISBN": "ISBN_001",
+    "title": "JavaScript: The Comprehensive Guide to Learning Professional JavaScript Programming (The Rheinwerk Computing)",
+    "author": "Philip Ackermann",
+    "publishingYear": 2022
+  },
+  {
+    "ISBN": "ISBN_002",
+    "title": "Eloquent JavaScript, 3rd Edition: A Modern Introduction to Programming",
+    "author": "Marijn Haverbeke",
+    "publishingYear": 1980
+  },
+  {
+    "ISBN": "ISBN_003",
+    "title": "hoho",
+    "author": "haha",
+    "publishingYear": 1880
+  }
+]
